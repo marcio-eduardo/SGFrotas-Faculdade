@@ -72,6 +72,22 @@ novo/
 *.backup
 *.sqlite3
 
+# --- Inteligência Artificial ---
+.agents/
+.agent/
+.gemini/
+.claude/
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.copilot/
+.github/copilot-instructions.md
+.aider*
+.mcp.json
+mcp_config.json
+walkthrough/
+
 # --- Proteção LGPD: Documentos/Planilhas/Tokens Corporativos Reais ---
 docs/Planilhas/
 docs/ValeCard/

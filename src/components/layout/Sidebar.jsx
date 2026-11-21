@@ -282,10 +282,10 @@ const SidebarBody = ({ activeTab, onSelectTab, onExportReport, onItemTriggered }
         })}
       </nav>
 
-      {/* Rodapé Inferior: Logo Positivo Tecnologia + Sair + Switch Light/Dark */}
+      {/* Rodapé Inferior: Logo Parceiro + Sair + Switch Light/Dark */}
       <div className="px-4 pt-2 pb-4 space-y-3">
         <div className="py-1.5 flex justify-center">
-          <BrandLogo variant="positivo" />
+          <BrandLogo variant="partner" />
         </div>
 
         <div className="pt-2.5 border-t border-app-surface3 dark:border-fleet-titanium/35 space-y-2.5">

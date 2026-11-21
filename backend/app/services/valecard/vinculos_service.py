@@ -68,7 +68,7 @@ class ValeCardVinculosService:
             if op not in ["V", "D"]:
                 raise ValueError(f"Operação inválida '{item.operacao}' para a placa {item.placa}. Use 'V' ou 'D'.")
 
-            # Localizar veículo na frota Positivo
+            # Localizar veículo na frota central
             veiculo = db.query(Veiculo).filter(
                 func.replace(func.upper(Veiculo.placa), "-", "") == placa_norm
             ).first()
