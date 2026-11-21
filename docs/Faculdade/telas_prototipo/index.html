@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGFrotas — Galeria de Telas Individuais (Padrão Claro)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen p-8">
+
+  <div class="max-w-6xl mx-auto space-y-8">
+    
+    <!-- Topo -->
+    <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="space-y-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-100">
+            Tarefa 3 — Prototipagem de Interface & Figma
+          </span>
+          <span class="text-xs text-slate-400">• Padrão Claro Executivo</span>
+        </div>
+        <h1 class="text-2xl font-black text-slate-900 tracking-tight">SGFrotas — Galeria de Telas Individuais</h1>
+        <p class="text-xs text-slate-500 max-w-2xl leading-relaxed">
+          Cada tela abaixo está em seu próprio arquivo HTML isolado em escala real 1:1. Você pode abrir individualmente no navegador ou importar tela a tela no Figma via plugin <strong>html.to.design</strong>.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="../figma_board_sgfrotas.html" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all">
+          <i data-lucide="layout-grid" class="w-4 h-4"></i>
+          <span>Abrir Board Panorâmico</span>
+        </a>
+        <a href="../figma_tokens_sgfrotas.json" download class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="code" class="w-4 h-4"></i>
+          <span>Tokens JSON</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Seção 1: Entrada & Autenticação -->
+    <div class="space-y-4">
+      <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-700">01. Entrada & Autenticação</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_01</span>
+            <h3 class="text-sm font-bold text-slate-900">Login Corporativo Unificado</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Página de acesso com seletor de perfil (Gestor vs. Técnico PWA), autenticação corporativa e validação de perfil RBAC.
+            </p>
+          </div>
+          <a href="tela_01_login.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 2: Trilha Desktop (Gestor de Frotas) -->
+    <div class="space-y-4">
+      <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-700">Trilha Desktop — Gestor de Frotas (1440x900px)</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_02</span>
+            <h3 class="text-sm font-bold text-slate-900">Torre de Controle</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Dashboard com 4 KPIs, seletor de 17 ATPs e tabela da frota paginada em 15 linhas.
+            </p>
+          </div>
+          <a href="tela_02_torre_de_controle.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_03</span>
+            <h3 class="text-sm font-bold text-slate-900">Ficha Técnica 360°</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Histórico de odômetros, custodiante atual, fotos da vistoria e contrato de leasing Arval.
+            </p>
+          </div>
+          <a href="tela_03_ficha_veiculo_360.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_04</span>
+            <h3 class="text-sm font-bold text-slate-900">Central Anti-NIC</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Contagem regressiva de dias, cruzamento com custódia e modal de indicação expressa.
+            </p>
+          </div>
+          <a href="tela_04_central_multas_anti_nic.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_05</span>
+            <h3 class="text-sm font-bold text-slate-900">Combustível Dropdown</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Seletor minimalista de 360px no tema claro, sincronização ValeCard e feed auditado.
+            </p>
+          </div>
+          <a href="tela_05_combustivel_dropdown.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Seção 3: Trilha Mobile PWA (Técnico de Campo) -->
+    <div class="space-y-4">
+      <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-700">Trilha Mobile PWA — Técnico de Operações em Campo (375x812px)</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_06</span>
+            <h3 class="text-sm font-bold text-slate-900">Meu Veículo em Cautela</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Interface tátil com odômetro atual, saldo do cartão e botões ergonômicos de campo.
+            </p>
+          </div>
+          <a href="tela_06_pwa_meu_veiculo.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_07</span>
+            <h3 class="text-sm font-bold text-slate-900">Checklist Vistoria 360°</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Silhueta clara da lataria com toque nas avarias, guia de 5 fotos WebP e assinatura touch.
+            </p>
+          </div>
+          <a href="tela_07_pwa_checklist_360.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_08</span>
+            <h3 class="text-sm font-bold text-slate-900">Abastecimento em Campo</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Formulário rápido de cupom fiscal com captura de foto da bomba e odômetro.
+            </p>
+          </div>
+          <a href="tela_08_pwa_registro_abastecimento.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400">TELA_09</span>
+            <h3 class="text-sm font-bold text-slate-900">Modo Offline & IndexedDB</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Banner âmbar suave de aviso sem conexão, fila local de vistorias e sincronização em background.
+            </p>
+          </div>
+          <a href="tela_09_pwa_modo_offline.html" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <span>Abrir Tela 1:1</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script> lucide.createIcons(); </script>
+</body>
+</html>
+

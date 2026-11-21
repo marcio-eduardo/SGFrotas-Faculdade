@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGFrotas — 07. PWA Checklist Vistoria 360° (Mobile)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+  <!-- Moldura de Smartphone (375x812) -->
+  <div class="w-[375px] min-h-[760px] bg-slate-900 rounded-[48px] p-3 shadow-2xl border-4 border-slate-800 flex flex-col">
+    <div class="h-4 w-32 bg-slate-800 rounded-full mx-auto mb-2 flex-shrink-0"></div>
+
+    <!-- Tela do Celular (Padrão Claro) -->
+    <div class="bg-slate-50 rounded-[36px] flex-1 flex flex-col justify-between overflow-hidden p-4 space-y-3">
+      
+      <!-- Topo -->
+      <div class="space-y-2.5">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+          <div class="flex items-center gap-2">
+            <a href="tela_06_pwa_meu_veiculo.html" class="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-xs font-black text-slate-900">Vistoria 360° da Lataria</span>
+          </div>
+          <span class="text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">
+            Passo 2 de 3
+          </span>
+        </div>
+
+        <!-- Silhueta Interativa Clara do Veículo -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-3 shadow-sm space-y-2 text-center">
+          <span class="text-[10px] font-semibold text-slate-500">Toque nos pontos da carroceria para assinalar avarias:</span>
+          
+          <div class="relative py-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-center">
+            <!-- Silhueta Vetorial Clara -->
+            <svg class="w-40 h-28 text-slate-400 stroke-current" viewBox="0 0 100 60" fill="none" stroke-width="2">
+              <rect x="20" y="10" width="60" height="40" rx="10" class="fill-white stroke-slate-300" />
+              <line x1="35" y1="10" x2="35" y2="50" class="stroke-slate-200" />
+              <line x1="65" y1="10" x2="65" y2="50" class="stroke-slate-200" />
+              <rect x="38" y="18" width="24" height="24" rx="4" class="fill-slate-100 stroke-slate-200" />
+              <!-- Ponto de Avaria Marcado -->
+              <circle cx="28" cy="14" r="5" class="fill-rose-500 animate-ping opacity-75" />
+              <circle cx="28" cy="14" r="4" class="fill-rose-500 stroke-white stroke-2" />
+            </svg>
+          </div>
+          <p class="text-[11px] font-bold text-rose-600">
+            1 avaria assinalada: Parachoque Dianteiro (Risco)
+          </p>
+        </div>
+
+        <!-- 5 Fotos Obrigatórias WebP -->
+        <div class="space-y-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Captura das 5 Fotos (WebP &lt; 200 KB)</span>
+          <div class="grid grid-cols-5 gap-1.5 text-center text-[9px] font-bold">
+            <div class="p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              Frente
+            </div>
+            <div class="p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              Traseira
+            </div>
+            <div class="p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              L. Esq
+            </div>
+            <div class="p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              L. Dir
+            </div>
+            <div class="p-1.5 rounded-xl bg-sky-50 border border-sky-300 text-sky-700 animate-pulse">
+              <i data-lucide="camera" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              Painel
+            </div>
+          </div>
+        </div>
+
+        <!-- Campo de Assinatura Touch -->
+        <div class="space-y-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Assinatura Digital do Técnico</span>
+          <div class="h-16 bg-white rounded-xl border border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-[10px] font-medium">
+            <span>Toque aqui com o dedo para assinar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão Avançar -->
+      <button class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-sky-600/20">
+        <span>Concluir & Assinar Vistoria</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+
+    </div>
+  </div>
+
+  <script> lucide.createIcons(); </script>
+</body>
+</html>
+

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGFrotas — 03. Ficha Técnica 360° do Ativo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+  <!-- ================= TOPBAR ================= -->
+  <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between sticky top-0 z-40">
+    <div class="flex items-center gap-4">
+      <a href="tela_02_torre_de_controle.html" class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 flex items-center gap-1.5 text-xs font-bold transition-all">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Voltar à Torre de Controle</span>
+      </a>
+      <div class="h-5 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+        <span>Veículos</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+        <span class="text-slate-900 font-bold font-mono">SWN7F22</span>
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">Em Cautela</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button class="px-3.5 py-1.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold flex items-center gap-2">
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+        <span>Exportar Relatório PDF</span>
+      </button>
+      <button class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold flex items-center gap-2 shadow-sm">
+        <i data-lucide="edit" class="w-3.5 h-3.5"></i>
+        <span>Atualizar Dados</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= CONTEÚDO PRINCIPAL (1440px) ================= -->
+  <main class="max-w-[1440px] mx-auto p-8 space-y-6">
+
+    <!-- Card de Cabeçalho do Veículo -->
+    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="flex items-center gap-5">
+        <div class="w-20 h-20 rounded-2xl bg-sky-600 text-white flex flex-col items-center justify-center font-mono font-bold shadow-md shadow-sky-600/20">
+          <span class="text-[9px] uppercase tracking-wider text-sky-200">BRASIL</span>
+          <span class="text-base font-black">SWN7F22</span>
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center gap-3">
+            <h2 class="text-xl font-black text-slate-900 tracking-tight">Fiat Strada Endurance 1.4 Flex CS</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              ● Ativo Regular
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">
+            Chassi: <strong class="font-mono text-slate-700">9BD278AF4P109283</strong> • Ano/Modelo: <strong>2024/2024</strong> • Cor: <strong>Branca</strong>
+          </p>
+          <p class="text-xs text-slate-500">
+            Base Regional: <strong class="text-slate-800">BOP Curitiba (PR)</strong> • Contrato Arval: <strong class="font-mono text-slate-700">#ARV-98321</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Métricas Resumidas -->
+      <div class="flex items-center gap-6 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6 text-xs">
+        <div class="space-y-1 text-center md:text-left">
+          <span class="text-[10px] uppercase font-bold text-slate-400">Odômetro Atual</span>
+          <p class="text-2xl font-black text-slate-900 font-mono">42.850 km</p>
+          <span class="text-[10px] text-amber-600 font-bold">Revisão em 1.150 km</span>
+        </div>
+        <div class="space-y-1 text-center md:text-left">
+          <span class="text-[10px] uppercase font-bold text-slate-400">Cartão Combustível</span>
+          <p class="text-2xl font-black text-sky-600 font-mono">**** 9042</p>
+          <span class="text-[10px] text-emerald-600 font-bold">Status: Liberado na Bomba</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid de Informações 360° -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Coluna 1: Custódia Ativa & Condutor -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="user-check" class="w-4 h-4 text-sky-600"></i>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Custodiante Vigente</h3>
+          </div>
+          <span class="text-[10px] text-emerald-600 font-bold">Desde 01/08/2026</span>
+        </div>
+
+        <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="w-10 h-10 rounded-full bg-sky-600 text-white font-bold text-xs flex items-center justify-center">
+            CS
+          </div>
+          <div class="space-y-0.5 leading-tight">
+            <h4 class="text-xs font-bold text-slate-900">Carlos Alberto Silva</h4>
+            <p class="text-[10px] text-slate-500 font-mono">Matrícula: 10482 • Técnico Telecom</p>
+            <p class="text-[10px] text-emerald-600 font-semibold">CNH: 0492819284 • Cat. B (Válida até 2028)</p>
+          </div>
+        </div>
+
+        <div class="space-y-2 text-xs text-slate-600">
+          <div class="flex justify-between py-1 border-b border-slate-50">
+            <span class="text-slate-400">Telefone:</span>
+            <span class="font-medium text-slate-800">(41) 98822-1920</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-slate-50">
+            <span class="text-slate-400">Supervisor Responsável:</span>
+            <span class="font-medium text-slate-800">Deyvson Rodrigues (BOP-PR)</span>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-slate-400">Termo de Cautela Digital:</span>
+            <span class="font-mono text-sky-600 font-bold">#TC-2026-0812 (Assinado)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna 2: Contrato de Locação & Prazos Arval -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-sky-600"></i>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Contrato de Leasing Arval</h3>
+          </div>
+          <span class="text-[10px] text-slate-400">Vigência 36 meses</span>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+            <div class="flex justify-between text-slate-600">
+              <span class="text-slate-400">Término do Contrato:</span>
+              <strong class="text-slate-900">15/09/2027</strong>
+            </div>
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div class="bg-sky-600 h-full w-[45%]"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-slate-400">
+              <span>Início: 15/09/2024</span>
+              <span>16 de 36 meses percorridos</span>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 text-slate-600">
+            <div class="flex justify-between py-1 border-b border-slate-50">
+              <span class="text-slate-400">Franquia Contratual:</span>
+              <strong class="font-mono text-slate-800">2.500 km / mês</strong>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-50">
+              <span class="text-slate-400">Seguro & Assistência 24h:</span>
+              <span class="text-emerald-600 font-bold">Cobertura Total Ativa</span>
+            </div>
+            <div class="flex justify-between py-1">
+              <span class="text-slate-400">Telefone Guincho Arval:</span>
+              <span class="font-mono text-slate-800">0800 770 2000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna 3: Última Vistoria & Fotos WebP -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="camera" class="w-4 h-4 text-sky-600"></i>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Vistoria 360° Recente</h3>
+          </div>
+          <span class="text-[10px] text-slate-400">19/10/2026 07:45</span>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-500">Status da Carroceria:</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              Sem Avarias
+            </span>
+          </div>
+
+          <!-- 5 Fotos WebP Arquivadas -->
+          <div class="grid grid-cols-5 gap-1.5 pt-2">
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              Frente
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              Traseira
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              L. Esq
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              L. Dir
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              Painel
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-400 text-center pt-1 font-mono">
+            5 fotos compactadas via algoritmo WebP (&lt; 200 KB cada)
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script> lucide.createIcons(); </script>
+</body>
+</html>
+
