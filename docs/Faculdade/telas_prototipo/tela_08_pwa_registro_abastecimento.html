@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGFrotas — 08. PWA Registro de Abastecimento em Campo (Mobile)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+  <!-- Moldura de Smartphone (375x812) -->
+  <div class="w-[375px] min-h-[760px] bg-slate-900 rounded-[48px] p-3 shadow-2xl border-4 border-slate-800 flex flex-col">
+    <div class="h-4 w-32 bg-slate-800 rounded-full mx-auto mb-2 flex-shrink-0"></div>
+
+    <!-- Tela do Celular (Padrão Claro) -->
+    <div class="bg-slate-50 rounded-[36px] flex-1 flex flex-col justify-between overflow-hidden p-4 space-y-3">
+      
+      <!-- Topo -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+          <div class="flex items-center gap-2">
+            <a href="tela_06_pwa_meu_veiculo.html" class="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-xs font-black text-slate-900">Registrar Abastecimento</span>
+          </div>
+          <span class="text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">
+            Cartão **** 9042
+          </span>
+        </div>
+
+        <!-- Formulário Rápido de Campo -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3 text-xs">
+          
+          <div class="space-y-1">
+            <label class="block font-semibold text-slate-700">Odômetro Atual no Painel (km)</label>
+            <div class="relative">
+              <i data-lucide="gauge" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" value="42.850" class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div class="space-y-1">
+              <label class="block font-semibold text-slate-700">Combustível</label>
+              <select class="w-full px-2.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-bold text-slate-800 text-xs">
+                <option>Etanol Comum</option>
+                <option>Gasolina Comum</option>
+                <option>Diesel S10</option>
+              </select>
+            </div>
+            <div class="space-y-1">
+              <label class="block font-semibold text-slate-700">Litragem (L)</label>
+              <input type="text" value="35,5" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-bold text-slate-900 text-xs" />
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block font-semibold text-slate-700">Valor Total Pago (R$)</label>
+            <div class="relative">
+              <span class="text-slate-400 font-bold absolute left-3 top-1/2 -translate-y-1/2 text-xs">R$</span>
+              <input type="text" value="138,45" class="w-full pl-8 pr-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-black text-slate-900 text-sm" />
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Captura de Foto do Cupom da Bomba -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-3 shadow-sm space-y-2 text-center">
+          <span class="text-[10px] font-bold uppercase text-slate-400">Comprovante Fiscal da Bomba</span>
+          
+          <div class="p-4 rounded-xl border-2 border-dashed border-sky-300 bg-sky-50/50 flex flex-col items-center justify-center gap-1 cursor-pointer">
+            <i data-lucide="camera" class="w-6 h-6 text-sky-600"></i>
+            <span class="text-xs font-bold text-sky-700">Tirar foto do Cupom Fiscal</span>
+            <span class="text-[9px] text-slate-400 font-mono">Compressão automática WebP (&lt; 150 KB)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão Enviar -->
+      <button class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-sky-600/20">
+        <i data-lucide="check-circle" class="w-4 h-4"></i>
+        <span>Confirmar Abastecimento</span>
+      </button>
+
+    </div>
+  </div>
+
+  <script> lucide.createIcons(); </script>
+</body>
+</html>
+

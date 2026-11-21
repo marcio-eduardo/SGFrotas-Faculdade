@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SGFrotas — Board de Protótipo (Tema Claro)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  html, body { margin: 0; background: #e5e7eb; font-family: 'Inter', sans-serif; }
+  #stage { position: relative; width: 10580px; height: 2392px; transform-origin: 0 0; }
+  #stage > * { position: absolute; }
+  .cover { left: 0; top: 0; width: 1000px; height: 620px; background: #0b1120; color: #fff;
+    clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%); }
+  .cover h1 { position: absolute; left: 90px; top: 150px; margin: 0; font-size: 72px; line-height: 1.05; font-weight: 800; letter-spacing: -1px; }
+  .cover p { position: absolute; left: 90px; top: 340px; width: 560px; margin: 0; font-size: 24px; line-height: 1.5; color: #94a3b8; }
+  .cover .tag { position: absolute; left: 90px; top: 90px; font: 600 22px 'JetBrains Mono'; color: #38bdf8; }
+  .cover .s1 { position: absolute; left: 560px; top: 440px; width: 0; height: 0; border-left: 60px solid transparent; border-right: 60px solid transparent; border-bottom: 104px solid #10b981; }
+  .cover .s2 { position: absolute; left: 700px; top: 420px; width: 110px; height: 110px; background: #0ea5e9; border-radius: 16px; transform: rotate(8deg); }
+  .cover .s3 { position: absolute; left: 790px; top: 380px; width: 100px; height: 100px; background: #f59e0b; border-radius: 50%; }
+  .panel { left: 1200px; top: 0; width: 1100px; height: 2392px; background: #f1f5f9; }
+  .panel .n { position: absolute; left: 60px; font-size: 64px; font-weight: 300; color: #cbd5e1; }
+  .panel h2 { position: absolute; left: 150px; margin: 0; font-size: 34px; font-weight: 700; color: #0f172a; }
+  .panel .lead { position: absolute; left: 150px; width: 860px; margin: 0; font-size: 22px; line-height: 1.5; color: #475569; }
+  .step { position: absolute; left: 150px; width: 860px; background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 32px 40px; box-shadow: 0 4px 20px rgba(0,0,0,.05); }
+  .step b { font-size: 26px; color: #0f172a; }
+  .step p { margin: 12px 0 0; font-size: 20px; line-height: 1.5; color: #475569; width: 640px; }
+  .step .chip { position: absolute; right: 36px; top: 30px; padding: 6px 16px; border-radius: 9999px; background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; font: 700 18px 'JetBrains Mono'; }
+  .section { left: 2500px; top: 0; width: 8080px; height: 2392px; background: #f1f5f9; }
+  .section > h2 { position: absolute; left: 120px; margin: 0; font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -.5px; }
+  .section > h2 small { margin-left: 24px; font: 500 24px 'JetBrains Mono'; color: #94a3b8; }
+  .label { font-size: 36px; font-weight: 500; color: #94a3b8; height: 70px; white-space: nowrap; }
+  .label small { margin-left: 20px; font: 500 20px 'JetBrains Mono'; color: #b6c0cd; }
+  .frame { background: #f8fafc; box-shadow: 0 1px 4px rgba(0,0,0,.08), 0 8px 32px rgba(15,23,42,.08); overflow: hidden; }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 44px 64px; box-sizing: border-box; box-shadow: 0 4px 20px rgba(0,0,0,.05); }
+  .card h3 { margin: 0 0 28px; font-size: 28px; font-weight: 800; color: #0f172a; }
+  .swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 28px; font-size: 20px; color: #475569; line-height: 1.4; }
+  .swatches i { display: block; height: 96px; border-radius: 16px; margin-bottom: 10px; }
+  .swatches code { font: 500 18px 'JetBrains Mono'; color: #94a3b8; }
+  .type { margin: 0 0 12px; font-size: 24px; color: #334155; }
+  .mono { font-family: 'JetBrains Mono'; font-weight: 600; }
+  .badges span { display: inline-block; margin-right: 16px; padding: 10px 24px; border-radius: 9999px; border: 2px solid; font-size: 20px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div class="cover">
+    <span class="tag">SGFrotas · Tarefa 3</span>
+    <h1>Prototipagem<br>de Interface</h1>
+    <p>Board do protótipo em tema claro: fluxo do Gestor de Frotas (desktop) e do Técnico em campo (PWA mobile).</p>
+    <div class="s1"></div><div class="s2"></div><div class="s3"></div>
+  </div>
+
+  <div class="panel">
+    <span class="n" style="top:70px">1</span>
+    <h2 style="top:90px">Ver o protótipo</h2>
+    <p class="lead" style="top:150px">Percorra as telas da esquerda para a direita. A seção superior traz o fluxo do gestor; a inferior, o do técnico em campo.</p>
+
+    <span class="n" style="top:330px">2</span>
+    <h2 style="top:350px">Como está organizado</h2>
+    <p class="lead" style="top:410px">Cada tela é um frame independente, nomeado com a história de usuário do backlog (US02, US04…).</p>
+
+    <div style="position:absolute;left:0;top:520px;width:100%">
+      <div class="step" style="top:0"><b>Gestor de Frotas · 5 telas</b><p>Login, Torre de Controle, Ficha 360°, Central Anti-NIC e Combustível ValeCard.</p><span class="chip">1440×900</span></div>
+      <div class="step" style="top:230px"><b>Técnico PWA · 4 telas</b><p>Meu Veículo, Checklist 360°, Registro de Abastecimento e Modo Offline.</p><span class="chip">375×812</span></div>
+      <div class="step" style="top:460px"><b>Tema claro</b><p>Cores, tipografia (Inter + JetBrains Mono) e raios no card ao final da seção mobile; JSON em figma_tokens_sgfrotas.json.</p><span class="chip">tokens</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 style="top:90px">Gestor de Frotas <small>Desktop · 1440×900</small></h2>
+    <h2 style="top:1280px">Técnico em Campo <small>PWA mobile · 375×812 · offline-first</small></h2>
+  </div>
+
+  <div class="label" style="left:2620px;top:200px;width:1440px">01 · Login<small>Acesso corporativo SSO/RBAC · 1440×900</small></div>
+  <div class="frame" style="left:2620px;top:270px;width:1440px;height:900px"><div class="bg-slate-50 text-slate-800 min-h-full flex items-center justify-center p-4 w-full h-full overflow-hidden relative"><div class="w-full max-w-md bg-white rounded-3xl border border-slate-200/90 shadow-xl p-8 space-y-6">
+    
+    <!-- Topo / Identidade -->
+    <div class="text-center space-y-2">
+      <div class="w-14 h-14 rounded-2xl bg-sky-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-sky-600/25">
+        <i data-lucide="shield-check" class="w-8 h-8"></i>
+      </div>
+      <h1 class="text-2xl font-black text-slate-900 tracking-tight">SGFrotas</h1>
+      <p class="text-xs text-slate-500 font-medium">Gestão Integrada de Frotas & Operações de Campo</p>
+    </div>
+
+    <!-- Seletor de Perfil de Acesso -->
+    <div class="space-y-1.5">
+      <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Perfil de Acesso</label>
+      <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-2xl border border-slate-200 text-xs font-bold">
+        <button id="btn-gestor" onclick="selectProfile('gestor')" class="py-2 rounded-xl transition-all bg-white text-sky-700 shadow-sm flex items-center justify-center gap-1.5">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-sky-600"></i>
+          <span>Gestor de Frotas</span>
+        </button>
+        <button id="btn-tecnico" onclick="selectProfile('tecnico')" class="py-2 rounded-xl transition-all text-slate-500 hover:text-slate-800 flex items-center justify-center gap-1.5">
+          <i data-lucide="smartphone" class="w-4 h-4"></i>
+          <span>Técnico PWA</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Formulário de Autenticação -->
+    <form class="space-y-4" onsubmit="event.preventDefault();">
+      <div class="space-y-1">
+        <label id="lbl-identificador" class="block text-xs font-semibold text-slate-700">E-mail Corporativo</label>
+        <div class="relative">
+          <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="input-user" value="gestor.central@veloce.com.br" class="w-full pl-10 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all" />
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <div class="flex items-center justify-between text-xs">
+          <label class="font-semibold text-slate-700">Senha de Acesso</label>
+          <a href="#" class="text-[11px] text-sky-600 font-semibold hover:underline">Esqueceu?</a>
+        </div>
+        <div class="relative">
+          <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input type="password" value="••••••••••••" class="w-full pl-10 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all font-mono" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between text-xs text-slate-600 pt-1">
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <input type="checkbox" checked class="w-4 h-4 rounded text-sky-600 border-slate-300 focus:ring-sky-500" />
+          <span>Lembrar credenciais</span>
+        </label>
+        <span class="text-[11px] font-semibold text-emerald-600 flex items-center gap-1">
+          <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> SSO Conectado
+        </span>
+      </div>
+
+      <button type="submit" class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-lg shadow-sky-600/20 transition-all flex items-center justify-center gap-2">
+        <span>Acessar Plataforma</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </form>
+
+    <!-- Rodapé -->
+    <div class="text-center pt-2 border-t border-slate-100 text-[11px] text-slate-400 space-y-0.5">
+      <p>VeloceTech Serviços Técnicos & Conectividade S.A.</p>
+      <p class="font-mono text-[10px] text-slate-400">PostgreSQL Central • 17 Bases Regionais</p>
+    </div>
+
+  </div></div></div>
+  <div class="label" style="left:4220px;top:200px;width:1440px">02 · Torre de Controle<small>US02 · US03 · 1440×900</small></div>
+  <div class="frame" style="left:4220px;top:270px;width:1440px;height:900px"><div class="bg-slate-50 text-slate-800 min-h-full w-full h-full overflow-hidden relative"><!-- ================= TOPBAR EXECUTIVA ================= -->
+  <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between relative z-40">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold text-sm shadow-md shadow-sky-600/20">
+          <i data-lucide="shield-check" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h1 class="text-sm font-extrabold text-slate-900 leading-none">SGFrotas</h1>
+          <span class="text-[10px] text-slate-400 font-medium">Torre de Controle Operacional</span>
+        </div>
+      </div>
+      <div class="h-5 w-px bg-slate-200 mx-2"></div>
+      <!-- Breadcrumb -->
+      <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+        <span>Matriz VeloceTech</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+        <span class="text-slate-800 font-bold">Governança de Ativos</span>
+      </div>
+    </div>
+
+    <!-- Perfil do Gestor & Busca -->
+    <div class="flex items-center gap-4">
+      <div class="relative w-64">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input type="text" placeholder="Buscar por placa, modelo ou técnico..." class="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500" />
+      </div>
+      <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
+        <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center">
+          MS
+        </div>
+        <div class="text-left text-xs leading-tight">
+          <p class="font-bold text-slate-800">Marcio Eduardo</p>
+          <p class="text-[10px] text-slate-400">Gestor Geral de Frota</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= CONTEÚDO PRINCIPAL (1440px CONTAINER) ================= -->
+  <main class="max-w-[1440px] mx-auto p-8 space-y-6">
+
+    <!-- Cabeçalho de Página & Seletor de 17 ATPs -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h2 class="text-xl font-black text-slate-900 tracking-tight">Visão Geral da Frota Nacional</h2>
+        <p class="text-xs text-slate-500">222 veículos leves utilitários em operação nas 17 Bases Regionais (BOPs)</p>
+      </div>
+
+      <!-- Filtro de Regionais / ATPs -->
+      <div class="flex items-center gap-1.5 p-1 bg-white rounded-xl border border-slate-200 shadow-sm text-xs font-semibold">
+        <button class="px-3 py-1.5 rounded-lg bg-sky-600 text-white font-bold shadow-sm">Todas (17 ATPs)</button>
+        <button class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50">Sudeste (7)</button>
+        <button class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50">Sul (4)</button>
+        <button class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50">Nordeste (4)</button>
+        <button class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50">C-Oeste/Norte (2)</button>
+      </div>
+    </div>
+
+    <!-- ================= 4 KPIS DE ALTO IMPACTO (PADRÃO CLARO) ================= -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      
+      <!-- KPI 1: Frota Ativa -->
+      <div class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Frota Total Monitorada</span>
+          <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <i data-lucide="car" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-black text-slate-900">222</span>
+          <span class="text-xs text-slate-400 font-medium">veículos</span>
+        </div>
+        <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-100 text-slate-600">
+          <span>152 em Cautela Ativa</span>
+          <span class="font-bold text-emerald-600">68% em campo</span>
+        </div>
+      </div>
+
+      <!-- KPI 2: Manutenções / Odômetro -->
+      <div class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Revisões Preventivas</span>
+          <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <i data-lucide="wrench" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-black text-amber-600">18</span>
+          <span class="text-xs text-slate-400 font-medium">pendências</span>
+        </div>
+        <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-100 text-slate-600">
+          <span>Ciclos de 10.000 km</span>
+          <span class="font-bold text-amber-600">&lt; 2.000 km limite</span>
+        </div>
+      </div>
+
+      <!-- KPI 3: Multas NIC -->
+      <div class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Alertas Anti-NIC (CTB)</span>
+          <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-black text-rose-600">12</span>
+          <span class="text-xs text-slate-400 font-medium">autuações</span>
+        </div>
+        <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-100 text-slate-600">
+          <span>Prevenção de multa dupla</span>
+          <span class="font-bold text-rose-600">4 urgentes (&lt; 5d)</span>
+        </div>
+      </div>
+
+      <!-- KPI 4: Combustível ValeCard -->
+      <div class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Faturamento Combustível</span>
+          <div class="w-8 h-8 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+            <i data-lucide="fuel" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-black text-slate-900 font-mono">R$ 303k</span>
+        </div>
+        <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-100 text-slate-600">
+          <span>2.856 abastecimentos</span>
+          <span class="font-bold text-sky-600">KissAPI ValeCard</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TABELA DA FROTA (PAGINADA EM 15 LINHAS) ================= -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      
+      <!-- Barra Superior da Tabela -->
+      <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-900">Listagem de Veículos da Frota</h3>
+          <p class="text-xs text-slate-400">Controle por máquina de estados e monitoramento contínuo</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium">Filtrar por Status:</span>
+          <select class="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option>Todos os Status</option>
+            <option>Em Uso (152)</option>
+            <option>Disponível (52)</option>
+            <option>Manutenção (18)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tabela -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50/80 text-slate-500 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-100">
+            <tr>
+              <th class="py-3 px-5">Placa & Modelo</th>
+              <th class="py-3 px-5">Base Regional (BOP)</th>
+              <th class="py-3 px-5">Condutor Custodiante</th>
+              <th class="py-3 px-5">Odômetro Atual</th>
+              <th class="py-3 px-5">Revisão Periódica</th>
+              <th class="py-3 px-5">Status Operacional</th>
+              <th class="py-3 px-5 text-right">Ação</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            <!-- Linha 1 -->
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-3 px-5 font-mono">
+                <span class="font-bold text-slate-900">SWN7F22</span>
+                <p class="text-[10px] font-sans text-slate-400 font-normal">Fiat Strada Endurance 1.4</p>
+              </td>
+              <td class="py-3 px-5 font-medium">BOP Curitiba (PR)</td>
+              <td class="py-3 px-5">
+                <p class="font-bold text-slate-800">Carlos Alberto Silva</p>
+                <p class="text-[10px] text-slate-400">Matrícula: 10482</p>
+              </td>
+              <td class="py-3 px-5 font-mono font-semibold">42.850 km</td>
+              <td class="py-3 px-5">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                  Próxima: em 1.150 km
+                </span>
+              </td>
+              <td class="py-3 px-5">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
+                  EM USO
+                </span>
+              </td>
+              <td class="py-3 px-5 text-right">
+                <button class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-sky-50 hover:text-sky-700 font-semibold text-[11px] transition-all">
+                  Ver Ficha 360°
+                </button>
+              </td>
+            </tr>
+
+            <!-- Linha 2 -->
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-3 px-5 font-mono">
+                <span class="font-bold text-slate-900">TYQ1E82</span>
+                <p class="text-[10px] font-sans text-slate-400 font-normal">Renault Kangoo Express</p>
+              </td>
+              <td class="py-3 px-5 font-medium">BOP Campinas (SP)</td>
+              <td class="py-3 px-5">
+                <p class="font-bold text-slate-800">Oficina Credenciada Arval</p>
+                <p class="text-[10px] text-slate-400">OS #84920</p>
+              </td>
+              <td class="py-3 px-5 font-mono font-semibold">60.120 km</td>
+              <td class="py-3 px-5">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                  Revisão em Andamento
+                </span>
+              </td>
+              <td class="py-3 px-5">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                  MANUTENÇÃO
+                </span>
+              </td>
+              <td class="py-3 px-5 text-right">
+                <button class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-sky-50 hover:text-sky-700 font-semibold text-[11px] transition-all">
+                  Ver Ficha 360°
+                </button>
+              </td>
+            </tr>
+
+            <!-- Linha 3 -->
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-3 px-5 font-mono">
+                <span class="font-bold text-slate-900">TBP2B81</span>
+                <p class="text-[10px] font-sans text-slate-400 font-normal">Volkswagen Gol 1.0 Flex</p>
+              </td>
+              <td class="py-3 px-5 font-medium">BOP Salvador (BA)</td>
+              <td class="py-3 px-5">
+                <p class="text-slate-400 italic">Pátio Regional</p>
+                <p class="text-[10px] text-slate-400">Sem condutor ativo</p>
+              </td>
+              <td class="py-3 px-5 font-mono font-semibold">28.450 km</td>
+              <td class="py-3 px-5">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  OK (em 1.550 km)
+                </span>
+              </td>
+              <td class="py-3 px-5">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  DISPONÍVEL
+                </span>
+              </td>
+              <td class="py-3 px-5 text-right">
+                <button class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-sky-50 hover:text-sky-700 font-semibold text-[11px] transition-all">
+                  Alocar Cautela
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Barra de Paginação Rígida de 15 Linhas -->
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500">
+        <div>
+          Mostrando <strong class="text-slate-800">1 a 15</strong> de <strong class="text-slate-800">222</strong> veículos
+        </div>
+        <div class="flex items-center gap-1 font-bold">
+          <button class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-400 bg-white cursor-not-allowed">&lt; Anterior</button>
+          <button class="px-3 py-1 rounded-lg bg-sky-600 text-white shadow-sm">1</button>
+          <button class="px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700">2</button>
+          <button class="px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700">3</button>
+          <span class="px-2">...</span>
+          <button class="px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700">15</button>
+          <button class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-700 bg-white hover:bg-slate-100">Próximo &gt;</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main></div></div>
+  <div class="label" style="left:5820px;top:200px;width:1440px">03 · Ficha do Veículo 360°<small>US06 · 1440×900</small></div>
+  <div class="frame" style="left:5820px;top:270px;width:1440px;height:900px"><div class="bg-slate-50 text-slate-800 min-h-full w-full h-full overflow-hidden relative"><!-- ================= TOPBAR ================= -->
+  <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between relative z-40">
+    <div class="flex items-center gap-4">
+      <a href="tela_02_torre_de_controle.html" class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 flex items-center gap-1.5 text-xs font-bold transition-all">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Voltar à Torre de Controle</span>
+      </a>
+      <div class="h-5 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+        <span>Veículos</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+        <span class="text-slate-900 font-bold font-mono">SWN7F22</span>
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">Em Cautela</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button class="px-3.5 py-1.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold flex items-center gap-2">
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+        <span>Exportar Relatório PDF</span>
+      </button>
+      <button class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold flex items-center gap-2 shadow-sm">
+        <i data-lucide="edit" class="w-3.5 h-3.5"></i>
+        <span>Atualizar Dados</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= CONTEÚDO PRINCIPAL (1440px) ================= -->
+  <main class="max-w-[1440px] mx-auto p-8 space-y-6">
+
+    <!-- Card de Cabeçalho do Veículo -->
+    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="flex items-center gap-5">
+        <div class="w-20 h-20 rounded-2xl bg-sky-600 text-white flex flex-col items-center justify-center font-mono font-bold shadow-md shadow-sky-600/20">
+          <span class="text-[9px] uppercase tracking-wider text-sky-200">BRASIL</span>
+          <span class="text-base font-black">SWN7F22</span>
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center gap-3">
+            <h2 class="text-xl font-black text-slate-900 tracking-tight">Fiat Strada Endurance 1.4 Flex CS</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              ● Ativo Regular
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">
+            Chassi: <strong class="font-mono text-slate-700">9BD278AF4P109283</strong> • Ano/Modelo: <strong>2024/2024</strong> • Cor: <strong>Branca</strong>
+          </p>
+          <p class="text-xs text-slate-500">
+            Base Regional: <strong class="text-slate-800">BOP Curitiba (PR)</strong> • Contrato Arval: <strong class="font-mono text-slate-700">#ARV-98321</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Métricas Resumidas -->
+      <div class="flex items-center gap-6 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6 text-xs">
+        <div class="space-y-1 text-center md:text-left">
+          <span class="text-[10px] uppercase font-bold text-slate-400">Odômetro Atual</span>
+          <p class="text-2xl font-black text-slate-900 font-mono">42.850 km</p>
+          <span class="text-[10px] text-amber-600 font-bold">Revisão em 1.150 km</span>
+        </div>
+        <div class="space-y-1 text-center md:text-left">
+          <span class="text-[10px] uppercase font-bold text-slate-400">Cartão Combustível</span>
+          <p class="text-2xl font-black text-sky-600 font-mono">**** 9042</p>
+          <span class="text-[10px] text-emerald-600 font-bold">Status: Liberado na Bomba</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid de Informações 360° -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Coluna 1: Custódia Ativa & Condutor -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="user-check" class="w-4 h-4 text-sky-600"></i>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Custodiante Vigente</h3>
+          </div>
+          <span class="text-[10px] text-emerald-600 font-bold">Desde 01/08/2026</span>
+        </div>
+
+        <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="w-10 h-10 rounded-full bg-sky-600 text-white font-bold text-xs flex items-center justify-center">
+            CS
+          </div>
+          <div class="space-y-0.5 leading-tight">
+            <h4 class="text-xs font-bold text-slate-900">Carlos Alberto Silva</h4>
+            <p class="text-[10px] text-slate-500 font-mono">Matrícula: 10482 • Técnico Telecom</p>
+            <p class="text-[10px] text-emerald-600 font-semibold">CNH: 0492819284 • Cat. B (Válida até 2028)</p>
+          </div>
+        </div>
+
+        <div class="space-y-2 text-xs text-slate-600">
+          <div class="flex justify-between py-1 border-b border-slate-50">
+            <span class="text-slate-400">Telefone:</span>
+            <span class="font-medium text-slate-800">(41) 98822-1920</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-slate-50">
+            <span class="text-slate-400">Supervisor Responsável:</span>
+            <span class="font-medium text-slate-800">Deyvson Rodrigues (BOP-PR)</span>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-slate-400">Termo de Cautela Digital:</span>
+            <span class="font-mono text-sky-600 font-bold">#TC-2026-0812 (Assinado)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna 2: Contrato de Locação & Prazos Arval -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-sky-600"></i>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Contrato de Leasing Arval</h3>
+          </div>
+          <span class="text-[10px] text-slate-400">Vigência 36 meses</span>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+            <div class="flex justify-between text-slate-600">
+              <span class="text-slate-400">Término do Contrato:</span>
+              <strong class="text-slate-900">15/09/2027</strong>
+            </div>
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div class="bg-sky-600 h-full w-[45%]"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-slate-400">
+              <span>Início: 15/09/2024</span>
+              <span>16 de 36 meses percorridos</span>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 text-slate-600">
+            <div class="flex justify-between py-1 border-b border-slate-50">
+              <span class="text-slate-400">Franquia Contratual:</span>
+              <strong class="font-mono text-slate-800">2.500 km / mês</strong>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-50">
+              <span class="text-slate-400">Seguro & Assistência 24h:</span>
+              <span class="text-emerald-600 font-bold">Cobertura Total Ativa</span>
+            </div>
+            <div class="flex justify-between py-1">
+              <span class="text-slate-400">Telefone Guincho Arval:</span>
+              <span class="font-mono text-slate-800">0800 770 2000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna 3: Última Vistoria & Fotos WebP -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="camera" class="w-4 h-4 text-sky-600"></i>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Vistoria 360° Recente</h3>
+          </div>
+          <span class="text-[10px] text-slate-400">19/10/2026 07:45</span>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-500">Status da Carroceria:</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              Sem Avarias
+            </span>
+          </div>
+
+          <!-- 5 Fotos WebP Arquivadas -->
+          <div class="grid grid-cols-5 gap-1.5 pt-2">
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              Frente
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              Traseira
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              L. Esq
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              L. Dir
+            </div>
+            <div class="p-2 rounded-lg bg-slate-100 text-center border border-slate-200 text-[10px] font-bold text-slate-600">
+              <i data-lucide="image" class="w-4 h-4 mx-auto mb-1 text-slate-400"></i>
+              Painel
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-400 text-center pt-1 font-mono">
+            5 fotos compactadas via algoritmo WebP (&lt; 200 KB cada)
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </main></div></div>
+  <div class="label" style="left:7420px;top:200px;width:1440px">04 · Central Anti-NIC<small>US04 · 1440×900</small></div>
+  <div class="frame" style="left:7420px;top:270px;width:1440px;height:900px"><div class="bg-slate-50 text-slate-800 min-h-full w-full h-full overflow-hidden relative"><!-- ================= TOPBAR ================= -->
+  <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between relative z-30">
+    <div class="flex items-center gap-4">
+      <a href="tela_02_torre_de_controle.html" class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 flex items-center gap-1.5 text-xs font-bold transition-all">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Voltar à Torre</span>
+      </a>
+      <div class="h-5 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+        <span>Compliance & Trânsito</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+        <span class="text-slate-900 font-bold">Prevenção Anti-NIC</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3 text-xs">
+      <span class="px-3 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200 font-bold flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+        4 Multas com Risco de Dobra Judicial
+      </span>
+    </div>
+  </header>
+
+  <!-- ================= CONTEÚDO PRINCIPAL (1440px) ================= -->
+  <main class="max-w-[1440px] mx-auto p-8 space-y-6">
+
+    <!-- Banner Didático de Compliance Legal -->
+    <div class="bg-gradient-to-r from-rose-50 via-white to-amber-50 border border-rose-200 rounded-3xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center flex-shrink-0 shadow-md shadow-rose-600/20">
+          <i data-lucide="shield-alert" class="w-6 h-6"></i>
+        </div>
+        <div class="space-y-1">
+          <h2 class="text-base font-extrabold text-slate-900">Motor de Prevenção de Multa NIC (Art. 257 do CTB)</h2>
+          <p class="text-xs text-slate-600 max-w-3xl leading-relaxed">
+            Quando a empresa (Pessoa Jurídica) não indica o condutor infrator no prazo legal estabelecido pelo órgão de trânsito (DETRAN, DNIT ou PRF), é aplicada a penalidade <strong>NIC (Não Indicação do Condutor)</strong>, cujo valor <strong>dobra a cada reincidência</strong>. O SGFrotas localiza instantaneamente o condutor que estava de posse do veículo no minuto exato do fato.
+          </p>
+        </div>
+      </div>
+      <div class="text-right flex-shrink-0">
+        <span class="text-2xl font-black text-rose-600 font-mono">R$ 14.850,00</span>
+        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Passivo Evitado Este Mês</p>
+      </div>
+    </div>
+
+    <!-- Tabela de Autuações com Contagem Regressiva em Dias -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-900">Autuações Pendentes de Indicação</h3>
+          <p class="text-xs text-slate-400">Classificadas por prioridade e prazo decadencial do órgão autuador</p>
+        </div>
+        <span class="text-xs text-slate-500 font-mono">12 notificações ativas</span>
+      </div>
+
+      <div class="divide-y divide-slate-100 text-xs">
+        
+        <!-- Notificação Crítica 1 -->
+        <div class="p-5 hover:bg-slate-50/70 transition-colors flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <div class="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 font-mono font-bold text-center flex-shrink-0">
+              <span class="text-[9px] uppercase tracking-wider block text-rose-400">DIAS RESTANTES</span>
+              <span class="text-2xl font-black block">3</span>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-3">
+                <span class="font-mono font-bold text-slate-900 text-sm">TYQ1E82</span>
+                <span class="font-bold text-slate-800">Transitar em Velocidade Superior à Máxima (Até 20%)</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800">
+                  URGENTE
+                </span>
+              </div>
+              <p class="text-xs text-slate-500">
+                Auto: <strong class="font-mono text-slate-700">SP-049281-B</strong> • Órgão: <strong>DER-SP</strong> • Data da Infração: <strong>14/10/2026 às 14:22</strong> • Local: <strong>Rod. Anhanguera, km 104</strong>
+              </p>
+              <div class="pt-1 flex items-center gap-2 text-[11px] text-slate-600">
+                <i data-lucide="user" class="w-3.5 h-3.5 text-sky-600"></i>
+                <span>Condutor Identificado na Custódia: <strong class="text-slate-900">Rodrigo Meirelles (Matrícula: 10921)</strong></span>
+                <span class="text-emerald-600 font-bold">• 100% Compatível com Horário</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 lg:self-center">
+            <div class="text-right mr-2">
+              <span class="text-xs text-slate-400 block">Valor do Auto</span>
+              <span class="text-sm font-black text-slate-900 font-mono">R$ 130,16</span>
+            </div>
+            <button onclick="document.getElementById('modal-indicacao').classList.remove('hidden')" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-md shadow-sky-600/20 transition-all flex items-center gap-2">
+              <i data-lucide="user-check" class="w-4 h-4"></i>
+              <span>Indicar Condutor Agora</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Notificação Crítica 2 -->
+        <div class="p-5 hover:bg-slate-50/70 transition-colors flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <div class="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 font-mono font-bold text-center flex-shrink-0">
+              <span class="text-[9px] uppercase tracking-wider block text-rose-400">DIAS RESTANTES</span>
+              <span class="text-2xl font-black block">4</span>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-3">
+                <span class="font-mono font-bold text-slate-900 text-sm">SWN7F22</span>
+                <span class="font-bold text-slate-800">Avançar o Sinal Vermelho do Semáforo</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800">
+                  URGENTE
+                </span>
+              </div>
+              <p class="text-xs text-slate-500">
+                Auto: <strong class="font-mono text-slate-700">PR-839201-A</strong> • Órgão: <strong>URBS Curitiba</strong> • Data da Infração: <strong>15/10/2026 às 19:10</strong> • Local: <strong>Av. Sete de Setembro</strong>
+              </p>
+              <div class="pt-1 flex items-center gap-2 text-[11px] text-slate-600">
+                <i data-lucide="user" class="w-3.5 h-3.5 text-sky-600"></i>
+                <span>Condutor Identificado na Custódia: <strong class="text-slate-900">Carlos Alberto Silva (Matrícula: 10482)</strong></span>
+                <span class="text-emerald-600 font-bold">• 100% Compatível</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 lg:self-center">
+            <div class="text-right mr-2">
+              <span class="text-xs text-slate-400 block">Valor do Auto</span>
+              <span class="text-sm font-black text-slate-900 font-mono">R$ 293,47</span>
+            </div>
+            <button class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-md shadow-sky-600/20 transition-all flex items-center gap-2">
+              <i data-lucide="user-check" class="w-4 h-4"></i>
+              <span>Indicar Condutor Agora</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= MODAL DE INDICAÇÃO EXPRESSA (ABERTO COMO DEMO) ================= -->
+  <div id="modal-indicacao" class="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border border-slate-200 max-w-lg w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center">
+            <i data-lucide="user-plus" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-slate-900">Indicação de Condutor Infrator</h4>
+            <p class="text-[10px] text-slate-400">Preenchimento automático via histórico de custódia</p>
+          </div>
+        </div>
+        <button onclick="document.getElementById('modal-indicacao').classList.add('hidden')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Dados da Infração -->
+      <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Auto de Infração:</span>
+          <strong class="font-mono text-slate-800">SP-049281-B (DER-SP)</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Veículo:</span>
+          <strong class="font-mono text-slate-800">TYQ1E82 • Renault Kangoo</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Data e Hora do Fato:</span>
+          <strong class="text-slate-800">14/10/2026 às 14:22</strong>
+        </div>
+      </div>
+
+      <!-- Formulário do Condutor Localizado -->
+      <div class="space-y-3 text-xs">
+        <div class="space-y-1">
+          <label class="block font-semibold text-slate-700">Nome do Condutor Responsável</label>
+          <input type="text" readonly value="Rodrigo Meirelles da Cunha" class="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-bold" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="block font-semibold text-slate-700">CPF do Técnico</label>
+            <input type="text" readonly value="284.910.294-11" class="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 font-mono" />
+          </div>
+          <div class="space-y-1">
+            <label class="block font-semibold text-slate-700">Número da CNH</label>
+            <input type="text" readonly value="05928104821" class="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 font-mono" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-100 text-xs font-bold">
+        <button onclick="document.getElementById('modal-indicacao').classList.add('hidden')" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50">
+          Cancelar
+        </button>
+        <button onclick="alert('Formulário de indicação gerado com sucesso!'); document.getElementById('modal-indicacao').classList.add('hidden')" class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white shadow-lg shadow-sky-600/20">
+          Confirmar & Emitir Formulário
+        </button>
+      </div>
+
+    </div>
+  </div></div></div>
+  <div class="label" style="left:9020px;top:200px;width:1440px">05 · Combustível ValeCard<small>US09 · US10 · US11 · 1440×900</small></div>
+  <div class="frame" style="left:9020px;top:270px;width:1440px;height:900px"><div class="bg-slate-50 text-slate-800 min-h-full w-full h-full overflow-hidden relative"><!-- ================= TOPBAR ================= -->
+  <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between relative z-30">
+    <div class="flex items-center gap-4">
+      <a href="tela_02_torre_de_controle.html" class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 flex items-center gap-1.5 text-xs font-bold transition-all">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Voltar à Torre</span>
+      </a>
+      <div class="h-5 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+        <span>Combustível & Cartões</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+        <span class="text-slate-900 font-bold">Auditoria ValeCard</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        KissAPI ValeCard Conectada
+      </span>
+    </div>
+  </header>
+
+  <!-- ================= CONTEÚDO PRINCIPAL (1440px) ================= -->
+  <main class="max-w-[1440px] mx-auto p-8 space-y-6">
+
+    <!-- Cabeçalho & KPIs de Combustível -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h2 class="text-xl font-black text-slate-900 tracking-tight">Monitoramento de Abastecimentos & Cartões</h2>
+        <p class="text-xs text-slate-500">Auditoria algorítmica de conformidade em tempo real (2.856 registros sincronizados)</p>
+      </div>
+      <div class="text-right">
+        <span class="text-xs text-slate-400 font-medium">Total Consumido no Mês:</span>
+        <p class="text-xl font-black text-slate-900 font-mono">64.104,1 L <span class="text-xs font-sans text-emerald-600 font-bold">(14,1 km/L médio)</span></p>
+      </div>
+    </div>
+
+    <!-- ================= SELETOR DROPDOWN EXECUTIVO (WALKTHROUGH 017) ================= -->
+    <div class="p-3 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      
+      <!-- Container do Dropdown de 360px -->
+      <div class="relative w-full sm:w-[360px]">
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 px-1">
+          Módulo Operacional
+        </label>
+        
+        <button id="btn-dropdown" onclick="toggleDropdown()" class="flex items-center justify-between gap-3 w-full px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-800 transition-all shadow-sm">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="shield-alert" class="w-4 h-4"></i>
+            </div>
+            <span>Abastecimentos & Anti-Fraude</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-white text-slate-600 border border-slate-200">
+              100
+            </span>
+            <i data-lucide="chevron-down" id="arrow-dropdown" class="w-4 h-4 text-slate-400 transition-transform"></i>
+          </div>
+        </button>
+
+        <!-- Menu Flutuante / Popover (Aberto para demonstração) -->
+        <div id="menu-dropdown" class="absolute left-0 top-full mt-2 w-full sm:w-[380px] bg-white rounded-2xl border border-slate-200 shadow-xl p-1.5 z-30 space-y-1">
+          <div class="px-3 py-1.5 text-[10px] font-bold uppercase text-slate-400">Selecione a visualização</div>
+          
+          <button class="w-full flex items-center justify-between p-2.5 rounded-xl bg-sky-50 text-sky-900 border border-sky-200 text-left">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-sky-600 text-white flex items-center justify-center">
+                <i data-lucide="shield-alert" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold">Abastecimentos & Anti-Fraude</p>
+                <p class="text-[10px] text-sky-700">Feed auditado e motor de anomalias</p>
+              </div>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-sky-200 text-sky-900">100</span>
+          </button>
+
+          <button class="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 text-slate-700 text-left">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center">
+                <i data-lucide="credit-card" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold">Base de Cartões & Limites</p>
+                <p class="text-[10px] text-slate-400">Cartões ativos e 2ª via</p>
+              </div>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-100 text-slate-600">1</span>
+          </button>
+
+          <button class="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 text-slate-700 text-left">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold">Bloqueio na Bomba (Oficina)</p>
+                <p class="text-[10px] text-slate-400">Veículos recolhidos bloqueados</p>
+              </div>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-100 text-slate-600">150</span>
+          </button>
+
+          <button class="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 text-slate-700 text-left">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center">
+                <i data-lucide="file-check-2" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold">Conciliação Fiscal de NF</p>
+                <p class="text-[10px] text-slate-400">Faturamento contábil e auditoria de títulos</p>
+              </div>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-100 text-slate-600">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botão Sincronizar com Espaçamento Amplo -->
+      <div class="self-end sm:self-center">
+        <button class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center gap-2 shadow-sm shadow-sky-600/20">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Sincronizar ValeCard REST</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Feed de Abastecimentos com Badges Anti-Fraude -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="fuel" class="w-4 h-4 text-sky-600"></i>
+          <span class="text-xs font-bold text-slate-900">Feed Auditado de Cupons Fiscais</span>
+          <span class="text-[10px] text-slate-400">(Paginado em 15 registros)</span>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs">
+          <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold">Todos (100)</span>
+          <span class="px-2.5 py-1 rounded-lg text-emerald-700 hover:bg-emerald-50 font-bold">Aprovados</span>
+          <span class="px-2.5 py-1 rounded-lg text-rose-700 hover:bg-rose-50 font-bold">⚠️ Com Alerta</span>
+        </div>
+      </div>
+
+      <div class="divide-y divide-slate-100 text-xs">
+        
+        <!-- Transação com Alerta Anti-Fraude -->
+        <div class="p-4 hover:bg-slate-50/70 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-slate-900">TYW1B86</span>
+                <span class="font-bold text-slate-800">Auto Posto Ipiranga das Américas</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                  ⚠️ Tanque Excedente (+7,4 L)
+                </span>
+              </div>
+              <p class="text-slate-500 text-[11px]">
+                19/10/2026 às 14:46 • Etanol Comum • Hodômetro na Bomba: <strong class="font-mono text-slate-700">16.330 km</strong> • Preço/L: R$ 4,39
+              </p>
+              <p class="text-[10px] text-rose-600 font-semibold">
+                Litragem abastecida (62,4 L) ultrapassa a capacidade nominal do tanque do veículo (55 L).
+              </p>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <span class="text-sm font-black text-slate-900 font-mono">R$ 273,93</span>
+            <p class="text-[10px] text-slate-400 font-mono">29,61 Litros</p>
+            <button class="mt-1 px-3 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-[11px] font-bold">
+              Auditar Transação
+            </button>
+          </div>
+        </div>
+
+        <!-- Transação Aprovada -->
+        <div class="p-4 hover:bg-slate-50/70 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-slate-900">TYQ1E82</span>
+                <span class="font-bold text-slate-800">Posto Shell Graal</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Conformidade Aprovada
+                </span>
+              </div>
+              <p class="text-slate-500 text-[11px]">
+                19/10/2026 às 14:44 • Etanol Comum • Hodômetro na Bomba: <strong class="font-mono text-slate-700">14.090 km</strong> • Preço/L: R$ 3,48
+              </p>
+              <p class="text-[10px] text-emerald-600">
+                Progressão de odômetro compatível com telemetria (+240 km desde a última revisão).
+              </p>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <span class="text-sm font-black text-slate-900 font-mono">R$ 88,71</span>
+            <p class="text-[10px] text-slate-400 font-mono">25,49 Litros</p>
+            <span class="text-[10px] text-slate-400 font-semibold">Auditado Automaticamente</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main></div></div>
+  <div class="label" style="left:2620px;top:1390px;width:375px">06 · Meu Veículo<small>US12 · 375×812</small></div>
+  <div class="frame" style="left:2620px;top:1460px;width:375px;height:812px"><div class="bg-slate-50  flex-1 flex flex-col justify-between overflow-hidden p-4 space-y-4 w-full h-full">
+      
+      <!-- Topo do PWA -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+              SG
+            </div>
+            <div>
+              <h1 class="text-xs font-black text-slate-900 leading-none">Meu Veículo</h1>
+              <span class="text-[10px] text-slate-500 font-medium">BOP Curitiba (PR)</span>
+            </div>
+          </div>
+          <!-- Badge de Conectividade -->
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 4G Ativo
+          </span>
+        </div>
+
+        <!-- Card Principal da Cautela (Padrão Claro) -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">
+              Cautela Ativa
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono">#TC-2026-0812</span>
+          </div>
+
+          <div>
+            <span class="text-xs text-slate-400 font-medium">Placa do Veículo</span>
+            <h2 class="text-2xl font-black text-slate-900 font-mono">SWN7F22</h2>
+            <p class="text-xs font-semibold text-slate-700">Fiat Strada Endurance 1.4 CS 2024</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-xs">
+            <div>
+              <span class="text-[10px] text-slate-400 block">Odômetro Registrado</span>
+              <strong class="font-mono text-slate-800 text-sm">42.850 km</strong>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 block">Cartão Combustível</span>
+              <strong class="font-mono text-emerald-600 text-sm">R$ 450,00</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botões de Ação de Campo -->
+        <div class="space-y-2 pt-1">
+          <a href="tela_07_pwa_checklist_360.html" class="w-full py-3 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-sky-600/20 transition-all">
+            <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+            <span>Iniciar Checklist Diário 360°</span>
+          </a>
+
+          <a href="tela_08_pwa_registro_abastecimento.html" class="w-full py-3 px-4 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all">
+            <i data-lucide="fuel" class="w-4 h-4 text-sky-600"></i>
+            <span>Registrar Abastecimento</span>
+          </a>
+
+          <button class="w-full py-2.5 px-4 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs flex items-center justify-center gap-2 transition-all">
+            <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+            <span>Informar Sinistro / Guincho</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rodapé do Aplicativo -->
+      <div class="text-center pt-2 border-t border-slate-200 text-[10px] text-slate-400 space-y-0.5">
+        <p>Condutor: <strong>Carlos Alberto Silva (10482)</strong></p>
+        <p class="font-mono text-[9px]">SGFrotas Mobile PWA v3.0 • Offline-First</p>
+      </div></div></div>
+  <div class="label" style="left:3155px;top:1390px;width:375px">07 · Checklist 360°<small>US13 · 375×812</small></div>
+  <div class="frame" style="left:3155px;top:1460px;width:375px;height:812px"><div class="bg-slate-50  flex-1 flex flex-col justify-between overflow-hidden p-4 space-y-3 w-full h-full">
+      
+      <!-- Topo -->
+      <div class="space-y-2.5">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+          <div class="flex items-center gap-2">
+            <a href="tela_06_pwa_meu_veiculo.html" class="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-xs font-black text-slate-900">Vistoria 360° da Lataria</span>
+          </div>
+          <span class="text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">
+            Passo 2 de 3
+          </span>
+        </div>
+
+        <!-- Silhueta Interativa Clara do Veículo -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-3 shadow-sm space-y-2 text-center">
+          <span class="text-[10px] font-semibold text-slate-500">Toque nos pontos da carroceria para assinalar avarias:</span>
+          
+          <div class="relative py-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-center">
+            <!-- Silhueta Vetorial Clara -->
+            <svg class="w-40 h-28 text-slate-400 stroke-current" viewBox="0 0 100 60" fill="none" stroke-width="2">
+              <rect x="20" y="10" width="60" height="40" rx="10" class="fill-white stroke-slate-300" />
+              <line x1="35" y1="10" x2="35" y2="50" class="stroke-slate-200" />
+              <line x1="65" y1="10" x2="65" y2="50" class="stroke-slate-200" />
+              <rect x="38" y="18" width="24" height="24" rx="4" class="fill-slate-100 stroke-slate-200" />
+              <!-- Ponto de Avaria Marcado -->
+              <circle cx="28" cy="14" r="5" class="fill-rose-500 animate-ping opacity-75" />
+              <circle cx="28" cy="14" r="4" class="fill-rose-500 stroke-white stroke-2" />
+            </svg>
+          </div>
+          <p class="text-[11px] font-bold text-rose-600">
+            1 avaria assinalada: Parachoque Dianteiro (Risco)
+          </p>
+        </div>
+
+        <!-- 5 Fotos Obrigatórias WebP -->
+        <div class="space-y-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Captura das 5 Fotos (WebP &lt; 200 KB)</span>
+          <div class="grid grid-cols-5 gap-1.5 text-center text-[9px] font-bold">
+            <div class="p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              Frente
+            </div>
+            <div class="p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              Traseira
+            </div>
+            <div class="p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              L. Esq
+            </div>
+            <div class="p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              L. Dir
+            </div>
+            <div class="p-1.5 rounded-xl bg-sky-50 border border-sky-300 text-sky-700 animate-pulse">
+              <i data-lucide="camera" class="w-3.5 h-3.5 mx-auto mb-0.5"></i>
+              Painel
+            </div>
+          </div>
+        </div>
+
+        <!-- Campo de Assinatura Touch -->
+        <div class="space-y-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Assinatura Digital do Técnico</span>
+          <div class="h-16 bg-white rounded-xl border border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-[10px] font-medium">
+            <span>Toque aqui com o dedo para assinar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão Avançar -->
+      <button class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-sky-600/20">
+        <span>Concluir & Assinar Vistoria</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button></div></div>
+  <div class="label" style="left:3690px;top:1390px;width:375px">08 · Abastecimento<small>US15 · 375×812</small></div>
+  <div class="frame" style="left:3690px;top:1460px;width:375px;height:812px"><div class="bg-slate-50  flex-1 flex flex-col justify-between overflow-hidden p-4 space-y-3 w-full h-full">
+      
+      <!-- Topo -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+          <div class="flex items-center gap-2">
+            <a href="tela_06_pwa_meu_veiculo.html" class="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-xs font-black text-slate-900">Registrar Abastecimento</span>
+          </div>
+          <span class="text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">
+            Cartão **** 9042
+          </span>
+        </div>
+
+        <!-- Formulário Rápido de Campo -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3 text-xs">
+          
+          <div class="space-y-1">
+            <label class="block font-semibold text-slate-700">Odômetro Atual no Painel (km)</label>
+            <div class="relative">
+              <i data-lucide="gauge" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" value="42.850" class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div class="space-y-1">
+              <label class="block font-semibold text-slate-700">Combustível</label>
+              <select class="w-full px-2.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-bold text-slate-800 text-xs">
+                <option>Etanol Comum</option>
+                <option>Gasolina Comum</option>
+                <option>Diesel S10</option>
+              </select>
+            </div>
+            <div class="space-y-1">
+              <label class="block font-semibold text-slate-700">Litragem (L)</label>
+              <input type="text" value="35,5" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-bold text-slate-900 text-xs" />
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block font-semibold text-slate-700">Valor Total Pago (R$)</label>
+            <div class="relative">
+              <span class="text-slate-400 font-bold absolute left-3 top-1/2 -translate-y-1/2 text-xs">R$</span>
+              <input type="text" value="138,45" class="w-full pl-8 pr-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-black text-slate-900 text-sm" />
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Captura de Foto do Cupom da Bomba -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-3 shadow-sm space-y-2 text-center">
+          <span class="text-[10px] font-bold uppercase text-slate-400">Comprovante Fiscal da Bomba</span>
+          
+          <div class="p-4 rounded-xl border-2 border-dashed border-sky-300 bg-sky-50/50 flex flex-col items-center justify-center gap-1 cursor-pointer">
+            <i data-lucide="camera" class="w-6 h-6 text-sky-600"></i>
+            <span class="text-xs font-bold text-sky-700">Tirar foto do Cupom Fiscal</span>
+            <span class="text-[9px] text-slate-400 font-mono">Compressão automática WebP (&lt; 150 KB)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão Enviar -->
+      <button class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-sky-600/20">
+        <i data-lucide="check-circle" class="w-4 h-4"></i>
+        <span>Confirmar Abastecimento</span>
+      </button></div></div>
+  <div class="label" style="left:4225px;top:1390px;width:375px">09 · Modo Offline<small>US14 · 375×812</small></div>
+  <div class="frame" style="left:4225px;top:1460px;width:375px;height:812px"><div class="bg-slate-50  flex-1 flex flex-col justify-between overflow-hidden p-4 space-y-3 w-full h-full">
+      
+      <!-- Topo -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+          <div class="flex items-center gap-2">
+            <a href="tela_06_pwa_meu_veiculo.html" class="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-xs font-black text-slate-900">Status de Conexão</span>
+          </div>
+          <!-- Badge Offline Âmbar Suave -->
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Modo Offline
+          </span>
+        </div>
+
+        <!-- Banner Explicativo Suave -->
+        <div class="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-1">
+          <div class="flex items-center gap-2 text-amber-800 font-bold text-xs">
+            <i data-lucide="wifi-off" class="w-4 h-4 text-amber-600"></i>
+            <span>Sem Conexão no Pátio / Zona de Sombra</span>
+          </div>
+          <p class="text-[11px] text-amber-700 leading-relaxed">
+            Seus registros e vistorias estão salvos com segurança na memória interna do aparelho via <strong>IndexedDB</strong>. Nada será perdido!
+          </p>
+        </div>
+
+        <!-- Fila de Envio Local -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-700">
+            <span>Fila Local de Sincronização</span>
+            <span class="text-amber-600 text-[11px]">2 itens pendentes</span>
+          </div>
+
+          <!-- Item 1 -->
+          <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="camera" class="w-4 h-4 text-sky-600"></i>
+                <span class="font-bold text-slate-900 text-xs">Vistoria 360° • SWN7F22</span>
+              </div>
+              <span class="text-[9px] font-mono text-slate-400">16:30</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-500">
+              <span>5 fotos compactadas (680 KB)</span>
+              <span class="font-bold text-amber-600 flex items-center gap-1">
+                <i data-lucide="clock" class="w-3 h-3"></i> Aguardando rede
+              </span>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="fuel" class="w-4 h-4 text-sky-600"></i>
+                <span class="font-bold text-slate-900 text-xs">Abastecimento • R$ 138,45</span>
+              </div>
+              <span class="text-[9px] font-mono text-slate-400">14:15</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-500">
+              <span>Hodômetro 42.850 km • 35,5 L</span>
+              <span class="font-bold text-amber-600 flex items-center gap-1">
+                <i data-lucide="clock" class="w-3 h-3"></i> Aguardando rede
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Card de Sincronização Automática -->
+      <div class="p-3 bg-white rounded-2xl border border-slate-200 text-center space-y-1 shadow-sm">
+        <div class="w-6 h-6 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center mx-auto">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 animate-spin"></i>
+        </div>
+        <p class="text-[11px] text-slate-600 font-medium">A sincronização será acionada automaticamente assim que o sinal 4G/Wi-Fi for restabelecido.</p>
+      </div></div></div>
+  <div class="card" style="left:4840px;top:1460px;width:1700px;height:812px">
+    <h3>Tokens · Tema claro</h3>
+    <div class="swatches">
+      <div><i style="background:#f0f4f8"></i>bg<br><code>#f0f4f8</code></div>
+      <div><i style="background:#ffffff;border:2px solid #e2e8f0"></i>surface<br><code>#ffffff</code></div>
+      <div><i style="background:#0369a1"></i>accent<br><code>#0369a1</code></div>
+      <div><i style="background:#0284c7"></i>brand.600<br><code>#0284c7</code></div>
+      <div><i style="background:#0ea5e9"></i>brand.500<br><code>#0ea5e9</code></div>
+      <div><i style="background:#059669"></i>success<br><code>#059669</code></div>
+      <div><i style="background:#d97706"></i>warning<br><code>#d97706</code></div>
+      <div><i style="background:#dc2626"></i>danger<br><code>#dc2626</code></div>
+      <div><i style="background:#0f172a"></i>text<br><code>#0f172a</code></div>
+      <div><i style="background:#475569"></i>text2<br><code>#475569</code></div>
+      <div><i style="background:#94a3b8"></i>text3<br><code>#94a3b8</code></div>
+      <div><i style="background:#0f172a"></i>sidebar<br><code>#0f172a</code></div>
+    </div>
+    <h3 style="margin-top:32px">Tipografia &amp; formas</h3>
+    <p class="type"><b>Inter</b> — interface · <span class="mono">JetBrains Mono — SWN7F22 · 42.850 km · R$ 303k</span></p>
+    <p class="type">Raios: cards <b>16px</b> · modais <b>20–24px</b> · badges <b>9999px</b> · Paginação: <b>15 linhas</b></p>
+    <h3 style="margin-top:32px">Status operacional</h3>
+    <div class="badges">
+      <span style="background:#ecfdf5;color:#047857;border-color:#a7f3d0">DISPONÍVEL</span>
+      <span style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">EM USO</span>
+      <span style="background:#fffbeb;color:#b45309;border-color:#fde68a">MANUTENÇÃO</span>
+      <span style="background:#fff1f2;color:#be123c;border-color:#fecdd3">SINISTRADO</span>
+    </div>
+  </div>
+</div>
+<script>
+
+    lucide.createIcons();
+
+    function selectProfile(profile) {
+      const btnGestor = document.getElementById('btn-gestor');
+      const btnTecnico = document.getElementById('btn-tecnico');
+      const lblId = document.getElementById('lbl-identificador');
+      const inputUser = document.getElementById('input-user');
+
+      if (profile === 'gestor') {
+        btnGestor.className = "py-2 rounded-xl transition-all bg-white text-sky-700 shadow-sm flex items-center justify-center gap-1.5";
+        btnTecnico.className = "py-2 rounded-xl transition-all text-slate-500 hover:text-slate-800 flex items-center justify-center gap-1.5";
+        lblId.innerText = "E-mail Corporativo";
+        inputUser.value = "gestor.central@veloce.com.br";
+      } else {
+        btnTecnico.className = "py-2 rounded-xl transition-all bg-white text-sky-700 shadow-sm flex items-center justify-center gap-1.5";
+        btnGestor.className = "py-2 rounded-xl transition-all text-slate-500 hover:text-slate-800 flex items-center justify-center gap-1.5";
+        lblId.innerText = "Matrícula do Técnico ou CPF";
+        inputUser.value = "10482 (Carlos Silva)";
+      }
+    }
+  
+
+    lucide.createIcons();
+
+    function toggleDropdown() {
+      const menu = document.getElementById('menu-dropdown');
+      const arrow = document.getElementById('arrow-dropdown');
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        arrow.classList.add('rotate-180');
+      } else {
+        menu.classList.add('hidden');
+        arrow.classList.remove('rotate-180');
+      }
+    }
+  
+</script>
+<script>
+  lucide.createIcons();
+  // ?fit → ajusta o board inteiro à largura da janela (visualização); sem parâmetro = tamanho real (importação)
+  if (location.search.indexOf('fit') >= 0) {
+    var st = document.getElementById('stage');
+    var k = window.innerWidth / 10580;
+    st.style.transform = 'scale(' + k + ')';
+    document.body.style.height = (2392 * k) + 'px';
+    document.body.style.overflow = 'hidden';
+  }
+</script>
+</body>
+</html>
