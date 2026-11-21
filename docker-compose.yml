@@ -1,0 +1,84 @@
+# =====================================================================
+# SGFrotas-Facul - Docker Compose Orquestrador (Ambiente Acadêmico)
+# Isolado do sgfrotas corporativo: portas 8001 (API) e 5175 (UI) -> 100% Supabase
+# =====================================================================
+
+name: sgfrotas-facul
+
+services:
+  # --- 1. BACKEND REST API (FASTAPI) COM HOT-RELOAD ---
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: sgfrotas_facul_backend
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./backend:/app/backend
+    env_file:
+      - path: .env
+        required: true
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${POSTGRES_DB:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_SSLMODE=${POSTGRES_SSLMODE:-require}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - sgfrotas_facul_network
+
+  # --- 2. FRONTEND VITE + REACT COM HOT-MODULE-REPLACEMENT (HMR) ---
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: sgfrotas_facul_frontend
+    restart: unless-stopped
+    ports:
+      - "5175:5174"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8001/api/v1
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - sgfrotas_facul_network
+
+  # --- 3. EXECUTOR DE MIGRAÇÕES FLYWAY (PERFIL TOOLS -> SUPABASE) ---
+  flyway:
+    image: flyway/flyway:10-alpine
+    container_name: sgfrotas_facul_flyway
+    env_file:
+      - path: .env
+        required: true
+    environment:
+      - FLYWAY_URL=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-postgres}?sslmode=${POSTGRES_SSLMODE:-require}
+      - FLYWAY_USER=${POSTGRES_USER:-postgres}
+      - FLYWAY_PASSWORD=${POSTGRES_PASSWORD}
+    command: -configFiles=/flyway/conf/flyway.conf migrate
+    volumes:
+      - ./db/migrations:/flyway/sql
+      - ./db/flyway.conf:/flyway/conf/flyway.conf
+    profiles:
+      - tools
+    networks:
+      - sgfrotas_facul_network
+
+networks:
+  sgfrotas_facul_network:
+    name: sgfrotas_facul_network
+    driver: bridge

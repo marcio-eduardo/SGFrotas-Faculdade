@@ -1,0 +1,9 @@
+# =====================================================================
+# SGFrotas-Facul - Alias de Desenvolvimento
+# Redireciona para o docker-compose.yml oficial do projeto
+# =====================================================================
+
+name: sgfrotas-facul
+
+include:
+  - docker-compose.yml

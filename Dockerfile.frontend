@@ -1,0 +1,19 @@
+# =====================================================================
+# SGFrotas Frontend - Dockerfile Dev (React + Vite)
+# =====================================================================
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Instala dependências aproveitando cache de camadas do Docker
+COPY package*.json ./
+RUN npm install
+
+# Copia código-fonte da aplicação
+COPY . .
+
+# Porta padrão de desenvolvimento do Vite (definida em vite.config.js)
+EXPOSE 5174
+
+# Executa o Vite com host 0.0.0.0 para aceitar conexões fora do container
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5174"]
