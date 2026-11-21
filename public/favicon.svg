@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="kwidFavBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#191919" />
+      <stop offset="100%" stop-color="#0a0a0a" />
+    </linearGradient>
+    <linearGradient id="kwidFavStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F15025" />
+      <stop offset="55%" stop-color="#E07A1F" />
+      <stop offset="100%" stop-color="#A47F6F" />
+    </linearGradient>
+  </defs>
+
+  <!-- Base arredondada para legibilidade em 16x16 e 32x32 -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#kwidFavBg)" stroke="#415057" stroke-opacity="0.55" stroke-width="1.5" />
+
+  <!-- Kwid + linhas de velocidade escalado e reforçado para o favicon -->
+  <g transform="translate(2.5, 20.5) scale(0.292)" stroke="url(#kwidFavStroke)" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="24" x2="72" y2="24" stroke-width="5.2" />
+    <line x1="24" y1="32" x2="110" y2="32" stroke-width="5.2" />
+    <line x1="5" y1="40" x2="104" y2="40" stroke-width="5.0" />
+    <path
+      d="M 55 11
+         Q 75 5 112 5
+         Q 125 6 144 23
+         Q 166 25 186 30
+         Q 193 33 194 42
+         Q 195 52 187 56
+         L 175 56
+         A 16 16 0 0 0 143 57
+         L 80 57
+         A 16 16 0 0 0 48 56
+         L 45 53
+         Q 42 43 44 33
+         L 52 17
+         Z"
+      stroke-width="5.2"
+    />
+    <path d="M 73 22 L 79 11 L 113 11 L 136 24 Q 122 25 74 25 Z" stroke-width="4.2" />
+    <circle cx="64" cy="57" r="13.8" stroke-width="5.2" />
+    <circle cx="159" cy="57" r="13.8" stroke-width="5.2" />
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * ARQUIVO INTENCIONALMENTE MINIMALISTA:
+ * Toda a estilização, paleta, variáveis CSS, scrollbars, texturas e classes
+ * semânticas (.fleet-*, .kpi-stripe-*) residem centralizadas em
+ * `tailwind.config.js` (Fonte Única da Verdade).
+ * Não adicione regras CSS manuais ou códigos de cor neste arquivo.
+ */
